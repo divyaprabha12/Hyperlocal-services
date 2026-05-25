@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class BookingService {
   private readonly http = inject(HttpClient);
-  private readonly apiUrl = 'http://localhost:5000/api/customer';
+  private readonly apiUrl = 'https://hyperlocal-services.onrender.com/api/customer';
 
   // Search providers with filters
   searchProviders(params: {

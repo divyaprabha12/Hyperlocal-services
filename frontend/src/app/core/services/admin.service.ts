@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class AdminService {
   private readonly http = inject(HttpClient);
-  private readonly apiUrl = 'http://localhost:5000/api/admin';
+  private readonly apiUrl = 'https://hyperlocal-services.onrender.com/api/admin';
 
   getPendingProviders(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/providers/pending`);

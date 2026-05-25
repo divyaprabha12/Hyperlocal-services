@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class ChatService {
   private readonly http = inject(HttpClient);
-  private readonly apiUrl = 'http://localhost:5000/api';
+  private readonly apiUrl = 'https://hyperlocal-services.onrender.com/api';
   private socket!: Socket;
 
   // Active chat and tracking signals
@@ -20,7 +20,7 @@ export class ChatService {
   }
 
   private initSocket(): void {
-    this.socket = io('http://localhost:5000', {
+    this.socket = io('https://hyperlocal-services.onrender.com', {
       autoConnect: false
     });
 

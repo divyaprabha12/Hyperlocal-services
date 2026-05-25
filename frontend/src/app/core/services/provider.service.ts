@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class ProviderService {
   private readonly http = inject(HttpClient);
-  private readonly apiUrl = 'http://localhost:5000/api/provider';
+  private readonly apiUrl = 'https://hyperlocal-services.onrender.com/api/provider';
 
   onboard(data: any): Observable<any> {
     return this.http.put<any>(`${this.apiUrl}/onboard`, data);

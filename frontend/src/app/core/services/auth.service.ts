@@ -10,7 +10,7 @@ import { throwError, Observable, BehaviorSubject, of } from 'rxjs';
 export class AuthService {
   private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
-  private readonly apiUrl = 'http://localhost:5000/api';
+  private readonly apiUrl = 'https://hyperlocal-services.onrender.com/api';
 
   // Global authentication signals
   readonly currentUser = signal<any | null>(null);

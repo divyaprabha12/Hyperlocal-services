@@ -8,7 +8,7 @@ import { tap } from 'rxjs/operators';
 })
 export class NotificationService {
   private readonly http = inject(HttpClient);
-  private readonly apiUrl = 'http://localhost:5000/api';
+  private readonly apiUrl = 'https://hyperlocal-services.onrender.com/api';
 
   readonly notifications = signal<any[]>([]);
   readonly unreadCount = computed(() => this.notifications().filter(n => !n.isRead).length);
