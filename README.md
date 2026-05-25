@@ -273,11 +273,29 @@ See detailed route definitions in `backend/src/routes/`.
 ---
 
 
+
 ## 🖼️ Screenshots
 
-| Dashboard | Booking Flow | Provider Profile |
-|-----------|--------------|------------------|
-| ![Dashboard](screenshots/dashboard.png) | ![Booking](screenshots/booking.png) | ![Provider](screenshots/provider.png) |
+| Landing Page                | Customer Dashboard           | Provider Dashboard           |
+|-----------------------------|------------------------------|------------------------------|
+| ![Landing](screenshots/Landing_Page.png) | ![Customer Dashboard](screenshots/customer%20dashboard.png) | ![Provider Dashboard](screenshots/Provider%20Dashboard.png) |
+
+| Search Services             | Complaints                   | KYC Verification             |
+|-----------------------------|------------------------------|------------------------------|
+| ![Search Services](screenshots/Search_services.png) | ![Complaints](screenshots/complaints.png) | ![KYC](screenshots/kyc.png) |
+
+| Provider Profile            | User Details                 | Service Details              |
+|-----------------------------|------------------------------|------------------------------|
+| ![Provider Profile](screenshots/Provider_profile.png) | ![User Details](screenshots/User_Details.png) | ![Service Details](screenshots/Services.png) |
+
+
+| Booking Status              | Track Provider               |
+|-----------------------------|------------------------------|
+| ![Booking Status](screenshots/Booking%20Status.png) | ![Track Provider](screenshots/Track_provider.png) |
+
+| Provider Details            | Review                       |
+|-----------------------------|------------------------------|
+| ![Provider Details](screenshots/Details_Provider.png) | ![Review](screenshots/Review.png) |
 
 > _Replace the above placeholders with actual screenshots for best results._
 
