@@ -1,0 +1,304 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+@import 'tailwindcss';
+
+/* ─── Premium Cream Design Tokens ────────────────────────────────────────── */
+:root {
+  --font: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+
+  /* Premium Cream & Organic Warm Sage Theme */
+  --bg-base:    #F7F5F0; /* Soft warm linen/cream */
+  --bg-surface: #FFFFFF; /* Pure white surface cards */
+  --bg-raised:  #FAF8F4; /* Lighter warm raised highlights */
+  --bg-overlay: rgba(247, 245, 240, 0.85); /* Linen glassmorphism */
+
+  /* Typography: Deep Charcoal & Muted Warm Earthy Grays */
+  --text-primary:   #252826; /* Soft deep charcoal */
+  --text-secondary: #525955; /* Mid olive-gray */
+  --text-muted:     #868F8A; /* Muted sage-gray */
+
+  /* Earthy Sage Greens & Warm Browns */
+  --accent:       #4A6B53; /* Mid forest sage green */
+  --accent-light: #5B8266; /* Bright sage green on hover */
+  --accent-dim:   rgba(74, 107, 83, 0.08); /* Beautiful leafy sage wash */
+  
+  /* Soft Earthy Borders & Premium Shadows */
+  --border:       #E6E2D8; /* Warm aesthetic linen border */
+  --border-hover: #D6D1C5; 
+
+  /* Semantics */
+  --success: #3E7A5A; /* Deep organic green */
+  --warning: #C67C38; /* Warm terracotta orange */
+  --danger:  #B54D40; /* Warm crimson red */
+
+  /* Spacing, Radius & Shadows */
+  --radius-sm: 8px;
+  --radius:    12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --shadow-sm: 0 2px 8px rgba(37, 40, 38, 0.02);
+  --shadow:    0 12px 32px rgba(37, 40, 38, 0.04);
+}
+
+/* ─── Global Reset & Typography ─────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  font-size: 14.5px; /* Increased globally for premium readability */
+  line-height: 1.6;
+  background: var(--bg-base);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+/* ─── Top Header Access ──────────────────────────────────────────────────── */
+.header-bar {
+  background: #FFFFFF;
+  border-bottom: 1px solid var(--border);
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 24px;
+  position: sticky;
+  top: 0;
+  z-index: 30;
+}
+
+/* ─── Layout Structure ───────────────────────────────────────────────────── */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 230px; /* Slightly wider for comfortable navigation links */
+  background: #FFFFFF;
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  z-index: 40;
+  transition: width 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar.collapsed {
+  width: 72px;
+}
+
+.sidebar-content {
+  margin-left: 230px;
+  min-height: 100vh;
+  background: var(--bg-base);
+  display: flex;
+  flex-direction: column;
+  transition: margin-left 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar-content.collapsed {
+  margin-left: 72px;
+}
+
+
+/* ─── Premium Cards & Elements ──────────────────────────────────────────── */
+.card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px; /* Generous breathing padding */
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.card:hover {
+  box-shadow: var(--shadow);
+  border-color: var(--border-hover);
+}
+
+.card-raised {
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+}
+
+/* ─── Premium Tactile Buttons ────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font);
+  font-size: 13.5px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
+  text-decoration: none;
+  border-radius: var(--radius);
+  padding: 10px 18px; /* Slightly larger tactile padding */
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #FFFFFF;
+  box-shadow: 0 2px 4px rgba(94, 124, 90, 0.15);
+}
+.btn-primary:hover {
+  background: var(--accent-light);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(94, 124, 90, 0.25);
+}
+.btn-primary:active {
+  transform: translateY(1px);
+}
+
+.btn-ghost {
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+}
+.btn-ghost:hover {
+  background: var(--bg-raised);
+  color: var(--text-primary);
+  border-color: var(--border-hover);
+}
+
+.btn-danger {
+  background: #FFF5F4;
+  color: var(--danger);
+  border: 1px solid #FCDFD9;
+}
+.btn-danger:hover {
+  background: #FFEBE8;
+}
+
+.btn-success {
+  background: #F2F8F4;
+  color: var(--success);
+  border: 1px solid #D5EBE0;
+}
+.btn-success:hover {
+  background: #E6F3EC;
+}
+
+.btn-sm { font-size: 12px; padding: 6px 12px; border-radius: var(--radius-sm); }
+.btn-lg { font-size: 15px; padding: 12px 24px; }
+
+/* ─── Form Controls ──────────────────────────────────────────────────────── */
+.input {
+  width: 100%;
+  font-family: var(--font);
+  font-size: 14px;
+  color: var(--text-primary);
+  background: #FFFFFF;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 14px;
+  outline: none;
+  transition: all 0.2s;
+}
+.input::placeholder { color: var(--text-muted); }
+.input:focus {
+  border-color: var(--accent-light);
+  box-shadow: 0 0 0 4px rgba(107, 143, 113, 0.12);
+}
+
+.label {
+  display: block;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 6px;
+}
+
+/* ─── Navigation Links ──────────────────────────────────────────────────── */
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px;
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: all 0.15s ease;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+.sidebar-link:hover {
+  background: var(--bg-raised);
+  color: var(--text-primary);
+}
+.sidebar-link.active {
+  background: var(--accent-dim);
+  color: var(--accent);
+  border-color: #E2ECD5;
+  font-weight: 600;
+}
+
+/* ─── Badges ────────────────────────────────────────────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 99px;
+  border: 1px solid transparent;
+}
+.badge-blue    { background: #EDF5FC; color: #1E6BBA; border-color: #D3E7FA; }
+.badge-green   { background: #EAF4EE; color: var(--success); border-color: #D3EADB; }
+.badge-amber   { background: #FCF5E9; color: var(--warning); border-color: #F7E5C8; }
+.badge-red     { background: #FCF0EE; color: var(--danger); border-color: #F7DDD8; }
+.badge-neutral { background: var(--bg-overlay); color: var(--text-secondary); border-color: var(--border); }
+
+/* ─── Table Redesign ────────────────────────────────────────────────────── */
+.table-row {
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+.table-row:hover { background: var(--bg-raised); }
+.table-row:last-child { border-bottom: none; }
+
+.avatar {
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: var(--bg-overlay);
+  border: 1.5px solid var(--border);
+}
+
+.spinner {
+  width: 20px; height: 20px;
+  border: 2px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ─── Topnav (Landing Header) ───────────────────────────────────────────── */
+.topnav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+
+@media (max-width: 1023px) {
+  .sidebar { display: none; }
+  .sidebar-content { margin-left: 0; }
+}
