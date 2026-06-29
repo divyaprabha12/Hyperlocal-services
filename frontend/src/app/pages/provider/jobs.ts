@@ -1,4 +1,4 @@
-﻿import { Component, inject, signal, OnInit } from '@angular/core';
+import { Component, inject, signal, OnInit } from '@angular/core';
 import { SidebarComponent } from '../../shared/sidebar';
 import { ProviderService } from '../../core/services/provider.service';
 import { AuthService } from '../../core/services/auth.service';
@@ -10,7 +10,7 @@ import { SidebarService } from '../../core/services/sidebar.service';
   selector: 'app-provider-jobs',
   imports: [FormsModule, NgIf, NgFor],
   template: `
-    <main style="padding:28px 32px;">
+    <main class="jobs-main">
 
           <!-- Header -->
           <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:28px;flex-wrap:wrap;">
@@ -45,15 +45,15 @@ import { SidebarService } from '../../core/services/sidebar.service';
           </div>
 
           <!-- Tabs -->
-          <div style="display:flex;gap:6px;border-bottom:1px solid var(--border);padding-bottom:8px;margin-bottom:20px;">
+          <div class="tabs-bar">
             <button (click)="activeTab.set('pending')" 
                     [style.color]="activeTab() === 'pending' ? 'var(--text-primary)' : 'var(--text-muted)'"
                     [style.borderColor]="activeTab() === 'pending' ? 'var(--accent)' : 'transparent'"
-                    class="tab-btn">Pending Requests ({{ pendingJobs().length }})</button>
+                    class="tab-btn">Pending ({{ pendingJobs().length }})</button>
             <button (click)="activeTab.set('active')" 
                     [style.color]="activeTab() === 'active' ? 'var(--text-primary)' : 'var(--text-muted)'"
                     [style.borderColor]="activeTab() === 'active' ? 'var(--accent)' : 'transparent'"
-                    class="tab-btn">Active Pipeline ({{ activeJobs().length }})</button>
+                    class="tab-btn">Active ({{ activeJobs().length }})</button>
             <button (click)="activeTab.set('completed')" 
                     [style.color]="activeTab() === 'completed' ? 'var(--text-primary)' : 'var(--text-muted)'"
                     [style.borderColor]="activeTab() === 'completed' ? 'var(--accent)' : 'transparent'"
@@ -119,8 +119,8 @@ import { SidebarService } from '../../core/services/sidebar.service';
                 <p style="font-size:13px;color:var(--text-muted);margin:0;">No completed job history.</p>
               </div>
 
-              <div style="background:var(--bg-surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
-                <table style="width:100%;border-collapse:collapse;text-align:left;font-size:13px;">
+              <div class="completed-table">
+                <table>
                   <thead>
                     <tr style="background:var(--bg-raised);border-bottom:1px solid var(--border);">
                       <th style="padding:10px 16px;color:var(--text-muted);font-weight:600;font-size:11px;text-transform:uppercase;">Service</th>
@@ -139,16 +139,62 @@ import { SidebarService } from '../../core/services/sidebar.service';
                   </tbody>
                 </table>
               </div>
+              <!-- Mobile card list (shown only on small screens via CSS) -->
+              <div class="completed-cards" style="display:none;flex-direction:column;gap:10px;">
+                <div *ngFor="let b of completedJobs()" style="background:var(--bg-surface);border:1px solid var(--border);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:8px;">
+                  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
+                    <p style="font-size:13.5px;font-weight:700;color:var(--text-primary);margin:0;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ b.service?.name }}</p>
+                    <span class="badge badge-green">Completed</span>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;font-size:12.5px;color:var(--text-secondary);">
+                    <span>{{ b.customer?.name }}</span>
+                    <span style="font-weight:700;color:var(--text-primary);">₹{{ b.totalAmount }}</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
         </main>
   `,
   styles: [`
+    .jobs-main {
+      padding: 24px 28px;
+      box-sizing: border-box;
+      width: 100%;
+    }
     .tab-btn {
       background: none; border: none; font-size: 13px; font-weight: 600; cursor: pointer;
-      padding: 6px 12px; border-bottom: 2px solid transparent; transition: all 0.12s;
-      font-family: inherit; outline: none;
+      padding: 6px 10px; border-bottom: 2px solid transparent; transition: all 0.12s;
+      font-family: inherit; outline: none; white-space: nowrap;
+    }
+    .tabs-bar {
+      display: flex;
+      gap: 4px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 8px;
+      margin-bottom: 20px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    .tabs-bar::-webkit-scrollbar { display: none; }
+    .completed-table {
+      display: block;
+      width: 100%;
+      overflow-x: hidden;
+    }
+    .completed-table table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 13px;
+    }
+    @media (max-width: 768px) {
+      .jobs-main { padding: 16px; }
+      .tab-btn { font-size: 12px; padding: 6px 8px; }
+      .completed-table table { display: none; }
+      .completed-cards { display: flex !important; }
     }
   `]
 })

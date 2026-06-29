@@ -352,23 +352,46 @@ import { SidebarService } from '../../core/services/sidebar.service';
       flex-wrap: wrap;
     }
     @media (max-width: 900px) {
+      .search-page {
+        padding: 14px 12px 18px;
+        height: auto;
+        overflow: visible;
+      }
       .search-grid {
         grid-template-columns: 1fr;
-        overflow: auto;
+        height: auto;
+        overflow: visible;
       }
       .filter-panel {
         overflow: visible;
+        border-radius: 16px;
+        padding: 14px;
       }
+      .panel-head h1 { font-size: 18px; }
       .results-panel,
       .results-scroll {
         overflow: visible;
+        height: auto;
       }
       .provider-card {
         flex-direction: column;
+        gap: 12px;
+        padding: 14px;
+      }
+      .provider-avatar-wrap img {
+        width: 60px;
+        height: 60px;
       }
       .provider-top {
-        flex-direction: column;
+        flex-direction: row;
+        align-items: flex-start;
       }
+      .provider-meta {
+        gap: 6px 10px;
+        font-size: 11.5px;
+      }
+      .search-box { padding: 8px 10px; }
+      .search-box input { font-size: 13px; }
     }
   `]
 })

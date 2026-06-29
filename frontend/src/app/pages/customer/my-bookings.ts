@@ -12,7 +12,7 @@ interface ComplaintModal { bookingId: string; serviceName: string; providerName:
   selector: 'app-my-bookings',
   imports: [RouterLink, FormsModule, NgIf, NgFor, DatePipe],
   template: `
-    <main style="padding:32px;max-width:1400px;margin:0 auto;width:100%;box-sizing:border-box;">
+    <main class="bookings-main">
 
           <!-- Header -->
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;flex-wrap:wrap;gap:12px;">
@@ -24,7 +24,7 @@ interface ComplaintModal { bookingId: string; serviceName: string; providerName:
           </div>
 
           <!-- Tabs -->
-          <div style="display:flex;gap:4px;border-bottom:2px solid var(--border);padding-bottom:0;margin-bottom:24px;">
+          <div class="tabs-bar">
             <button (click)="activeTab.set('active')"
                     [style.color]="activeTab() === 'active' ? 'var(--accent)' : 'var(--text-muted)'"
                     [style.borderBottomColor]="activeTab() === 'active' ? 'var(--accent)' : 'transparent'"
@@ -80,7 +80,7 @@ interface ComplaintModal { bookingId: string; serviceName: string; providerName:
             </div>
 
             <div style="display:flex;flex-direction:column;gap:16px;">
-              <div *ngFor="let b of completedBookings()" class="card" style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+              <div *ngFor="let b of completedBookings()" class="card completed-row">
                 <!-- Service icon & name -->
                 <div style="width:48px;height:48px;border-radius:12px;background:var(--accent-dim);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">
                   {{ catEmoji(b.service?.category) }}
@@ -95,7 +95,7 @@ interface ComplaintModal { bookingId: string; serviceName: string; providerName:
                 </div>
 
                 <!-- Action Buttons -->
-                <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
+                <div class="completed-actions">
                   <!-- Review Button or submitted state -->
                   <button *ngIf="!hasReviewed(b._id)"
                           (click)="openReviewModal(b)"
@@ -274,13 +274,48 @@ interface ComplaintModal { bookingId: string; serviceName: string; providerName:
     </div>
   `,
   styles: [`
+    .bookings-main {
+      padding: 28px 24px;
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .tabs-bar {
+      display: flex;
+      gap: 2px;
+      border-bottom: 2px solid var(--border);
+      margin-bottom: 24px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    .tabs-bar::-webkit-scrollbar { display: none; }
     .tab-btn {
       background: none; border: none; border-bottom: 2px solid transparent;
       font-size: 13.5px; font-weight: 600; cursor: pointer;
-      padding: 10px 16px; font-family: inherit; outline: none;
-      transition: all 0.15s;
+      padding: 10px 14px; font-family: inherit; outline: none;
+      transition: all 0.15s; white-space: nowrap; flex-shrink: 0;
     }
     .tab-btn:hover { color: var(--text-primary) !important; }
+    .completed-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .completed-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    @media (max-width: 768px) {
+      .bookings-main { padding: 16px; }
+      .tab-btn { font-size: 12.5px; padding: 8px 10px; }
+      .completed-row { flex-direction: column; align-items: flex-start; gap: 10px; }
+      .completed-actions { width: 100%; justify-content: flex-end; flex-wrap: wrap; }
+    }
   `]
 })
 export class MyBookingsPage implements OnInit {

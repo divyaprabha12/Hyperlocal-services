@@ -1,4 +1,4 @@
-﻿import { Component, inject, signal, OnInit } from '@angular/core';
+import { Component, inject, signal, OnInit } from '@angular/core';
 import { SidebarComponent } from '../../shared/sidebar';
 import { HeaderComponent } from '../../shared/header';
 import { ProviderService } from '../../core/services/provider.service';
@@ -24,7 +24,7 @@ interface OfferedService {
   selector: 'app-provider-manage-services',
   imports: [FormsModule, NgIf, NgFor],
   template: `
-    <main style="padding:32px;max-width:1400px;margin:0 auto;width:100%;box-sizing:border-box;">
+    <main class="manage-main">
 
           <!-- Header -->
           <div style="margin-bottom:28px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
@@ -54,7 +54,7 @@ interface OfferedService {
               </div>
 
               <!-- Grid of Gorgeous Service Cards -->
-              <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:16px;" class="services-grid">
+              <div class="services-grid">
                 <div *ngFor="let s of services()" class="card" style="background:var(--bg-raised);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:12px;position:relative;">
                   
                   <!-- Top icon & status toggle -->
@@ -70,13 +70,13 @@ interface OfferedService {
 
                   <!-- Details -->
                   <div>
-                    <h3 style="font-size:15px;font-weight:800;color:var(--text-primary);margin:0 0 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                    <h3 class="service-name">
                       {{ s.name }}
                     </h3>
-                    <span class="badge badge-neutral" style="text-transform:uppercase;font-size:9.5px;margin-bottom:8px;">
+                    <span class="badge badge-neutral" style="text-transform:uppercase;font-size:9.5px;margin-bottom:8px;display:inline-block;">
                       {{ s.category }}
                     </span>
-                    <p style="font-size:13px;color:var(--text-secondary);margin:6px 0;line-height:1.4;height:54px;overflow:hidden;text-overflow:ellipsis;">
+                    <p class="service-desc">
                       {{ s.description }}
                     </p>
                   </div>
@@ -171,8 +171,48 @@ interface OfferedService {
         </main>
   `,
   styles: [`
+    .manage-main {
+      padding: 28px 24px;
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .service-name {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--text-primary);
+      margin: 0 0 4px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      white-space: normal;
+    }
+    .service-desc {
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      margin: 6px 0;
+      line-height: 1.4;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      height: auto;
+    }
     @media (max-width: 900px) {
-      .services-grid { grid-template-columns: 1fr !important; }
+      .services-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      .manage-main { padding: 16px; }
+      .services-grid { grid-template-columns: 1fr; }
     }
   `]
 })

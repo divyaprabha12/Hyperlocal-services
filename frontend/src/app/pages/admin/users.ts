@@ -1,4 +1,4 @@
-﻿import { Component, inject, signal, OnInit } from '@angular/core';
+import { Component, inject, signal, OnInit } from '@angular/core';
 import { SidebarComponent } from '../../shared/sidebar';
 import { AdminService } from '../../core/services/admin.service';
 import { FormsModule } from '@angular/forms';
@@ -9,7 +9,7 @@ import { SidebarService } from '../../core/services/sidebar.service';
   selector: 'app-admin-users',
   imports: [FormsModule, NgIf, NgFor],
   template: `
-    <main style="padding:28px 32px;max-width:100%;">
+    <main class="users-main">
 
           <!-- Header -->
           <div style="margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
@@ -22,7 +22,7 @@ import { SidebarService } from '../../core/services/sidebar.service';
           </div>
 
           <!-- Filtering Tabs -->
-          <div style="display:flex;gap:6px;border-bottom:1px solid var(--border);padding-bottom:8px;margin-bottom:16px;">
+          <div class="tabs-bar">
             <button (click)="changeTab('all')" 
                     [style.color]="activeTab() === 'all' ? 'var(--text-primary)' : 'var(--text-muted)'"
                     [style.borderColor]="activeTab() === 'all' ? 'var(--accent)' : 'transparent'"
@@ -45,7 +45,7 @@ import { SidebarService } from '../../core/services/sidebar.service';
           <div style="display:grid;grid-template-columns:1.6fr 1.4fr;gap:20px;align-items:start;" class="split-grid">
             
             <!-- Directory Table -->
-            <div class="card" style="padding:0;overflow:hidden;">
+            <div class="card users-table" style="padding:0;overflow:hidden;">
               <table style="width:100%;border-collapse:collapse;text-align:left;font-size:13px;">
                 <thead>
                   <tr style="background:var(--bg-raised);border-bottom:1px solid var(--border);">
@@ -75,6 +75,26 @@ import { SidebarService } from '../../core/services/sidebar.service';
                   </tr>
                 </tbody>
               </table>
+            </div>
+
+            <!-- Mobile Cards list -->
+            <div class="users-cards" style="display:none;flex-direction:column;gap:12px;">
+              <div *ngFor="let u of filteredUsers()" 
+                   class="card" 
+                   (click)="selectedUser.set(u)"
+                   [style.borderColor]="selectedUser()?._id === u._id ? 'var(--accent)' : ''"
+                   style="padding:14px;cursor:pointer;display:flex;flex-direction:column;gap:8px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                  <strong style="font-size:14px;color:var(--text-primary);">{{ u.name }}</strong>
+                  <span [class]="u.status === 'active' ? 'badge badge-green' : 'badge badge-red'">{{ u.status }}</span>
+                </div>
+                <div style="font-size:12.5px;color:var(--text-secondary);display:flex;justify-content:space-between;align-items:center;">
+                  <span>{{ u.email }} · <span style="text-transform:capitalize;font-weight:600;">{{ u.role }}</span></span>
+                  <button (click)="toggleUser(u); $event.stopPropagation()" class="btn btn-sm btn-ghost" style="font-size:11px;padding:4px 8px;margin-left:auto;">
+                    {{ u.status === 'active' ? 'Suspend' : 'Activate' }}
+                  </button>
+                </div>
+              </div>
             </div>
 
             <!-- Detail moderation view panel -->
@@ -143,12 +163,36 @@ import { SidebarService } from '../../core/services/sidebar.service';
         </main>
   `,
   styles: [`
+    .users-main {
+      padding: 24px 28px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .tabs-bar {
+      display: flex;
+      gap: 4px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 8px;
+      margin-bottom: 16px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    .tabs-bar::-webkit-scrollbar { display: none; }
     .tab-btn {
       background: none; border: none; font-size: 13px; font-weight: 600; cursor: pointer;
       padding: 6px 12px; border-bottom: 2px solid transparent; transition: all 0.12s;
-      font-family: inherit; outline: none;
+      font-family: inherit; outline: none; white-space: nowrap; flex-shrink: 0;
     }
-    @media (max-width: 900px) { .split-grid { grid-template-columns: 1fr !important; } }
+    @media (max-width: 900px) {
+      .split-grid { grid-template-columns: 1fr !important; }
+    }
+    @media (max-width: 768px) {
+      .users-main { padding: 16px; }
+      .tab-btn { font-size: 12.5px; padding: 6px 8px; }
+      .users-table { display: none; }
+      .users-cards { display: flex !important; }
+    }
   `]
 })
 export class AdminUsersPage implements OnInit {

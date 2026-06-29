@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './header';
 import { SidebarComponent } from './sidebar';
 import { SidebarService } from '../core/services/sidebar.service';
@@ -15,7 +15,7 @@ import { SidebarService } from '../core/services/sidebar.service';
         <app-sidebar class="sidebar-host"></app-sidebar>
 
         <div class="content-shell">
-          <main class="content-main" [class.dashboard-scroll]="allowMainScroll()">
+          <main class="content-main">
             <router-outlet></router-outlet>
           </main>
         </div>
@@ -28,13 +28,16 @@ import { SidebarService } from '../core/services/sidebar.service';
       display: flex;
       flex-direction: column;
       overflow: hidden;
+      overflow-x: hidden;
       background: var(--bg-base);
+      max-width: 100vw;
     }
     .workspace-shell {
       flex: 1;
       min-height: 0;
       display: flex;
       overflow: hidden;
+      overflow-x: hidden;
     }
     .sidebar-host {
       flex: 0 0 auto;
@@ -51,23 +54,20 @@ import { SidebarService } from '../core/services/sidebar.service';
     .content-main {
       flex: 1;
       min-height: 0;
-      overflow: hidden;
+      overflow-y: auto;
       position: relative;
       padding: 0;
     }
-    .content-main.dashboard-scroll {
-      overflow-y: auto;
-    }
     @media (max-width: 1023px) {
+      .sidebar-host {
+        width: 0;
+        flex: 0 0 0px;
+        overflow: visible;
+      }
       .content-main { padding: 0; }
     }
   `]
 })
 export class AppLayoutComponent {
   readonly sidebarService = inject(SidebarService);
-  private readonly router = inject(Router);
-
-  allowMainScroll(): boolean {
-    return this.router.url.includes('/dashboard');
-  }
 }

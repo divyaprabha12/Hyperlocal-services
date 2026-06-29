@@ -27,6 +27,12 @@ interface NavItem {
             <span class="nav-text" *ngIf="!sidebarService.isCollapsed()">{{ item.label }}</span>
           </a>
         </ng-container>
+
+        <!-- Direct Log Out link at bottom of sidebar stack -->
+        <button type="button" class="nav-item logout-nav-btn" (click)="logout()" style="width:100%;text-align:left;border:none;background:transparent;cursor:pointer;font-family:inherit;margin-top:auto;display:flex;align-items:center;padding:0 14px;">
+          <span class="nav-icon" [innerHTML]="logoutIcon()" style="color:var(--danger);"></span>
+          <span class="nav-text" *ngIf="!sidebarService.isCollapsed()" style="color:var(--danger);font-weight:700;">Log Out</span>
+        </button>
       </nav>
 
       <div class="sidebar-footer">
@@ -64,32 +70,24 @@ interface NavItem {
       </div>
     </aside>
 
-    <div class="mobile-topbar">
-      <a routerLink="/" class="mobile-brand">
-        <span class="mobile-brand-logo"></span>
-        <span>Hyperlocal</span>
-      </a>
-      <button type="button" class="mobile-toggle" (click)="mobileOpen.set(!mobileOpen())">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-          <line x1="4" x2="20" y1="6" y2="6"></line>
-          <line x1="4" x2="20" y1="12" y2="12"></line>
-          <line x1="4" x2="20" y1="18" y2="18"></line>
-        </svg>
-      </button>
-    </div>
-
-    <div *ngIf="mobileOpen()" class="mobile-overlay" (click)="mobileOpen.set(false)">
+    <div *ngIf="sidebarService.isMobileOpen()" class="mobile-overlay" (click)="sidebarService.isMobileOpen.set(false)">
       <div class="mobile-drawer" (click)="$event.stopPropagation()">
-        <nav class="mobile-nav">
+        <nav class="mobile-nav" style="display:flex;flex-direction:column;height:100%;">
           <a *ngFor="let item of navItems()"
              [routerLink]="item.route"
              routerLinkActive="active"
              [routerLinkActiveOptions]="{ exact: item.exact === true }"
              class="nav-item mobile-link"
-             (click)="mobileOpen.set(false)">
+             (click)="sidebarService.isMobileOpen.set(false)">
             <span class="nav-icon" [innerHTML]="getIcon(item.label)"></span>
             <span class="nav-text">{{ item.label }}</span>
           </a>
+
+          <!-- Direct Log Out link in mobile drawer -->
+          <button type="button" class="nav-item mobile-link" (click)="logout(); sidebarService.isMobileOpen.set(false)" style="width:100%;text-align:left;border:none;cursor:pointer;font-family:inherit;margin-top:auto;display:flex;align-items:center;background:var(--bg-base);padding:0 14px;min-height:48px;border-radius:16px;">
+            <span class="nav-icon" [innerHTML]="logoutIcon()" style="color:var(--danger);"></span>
+            <span class="nav-text" style="color:var(--danger);font-weight:700;">Log Out</span>
+          </button>
         </nav>
       </div>
     </div>
@@ -336,7 +334,6 @@ interface NavItem {
     .danger-item:hover {
       background: rgba(181, 77, 64, 0.08);
     }
-    .mobile-topbar { display: none; }
     .mobile-overlay {
       position: fixed;
       inset: 0;
@@ -360,39 +357,6 @@ interface NavItem {
     }
     @media (max-width: 1023px) {
       .sidebar-shell { display: none; }
-      .mobile-topbar {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 10px 16px;
-        border-bottom: 1px solid var(--border);
-        background: var(--bg-surface);
-      }
-      .mobile-brand {
-        text-decoration: none;
-        color: var(--text-primary);
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        font-weight: 800;
-      }
-      .mobile-brand-logo {
-        width: 24px;
-        height: 24px;
-        border-radius: 8px;
-        background: linear-gradient(135deg, #ef8f67, #df7155);
-        display: inline-block;
-      }
-      .mobile-toggle {
-        width: 38px;
-        height: 38px;
-        border: 1px solid var(--border);
-        background: var(--bg-surface);
-        border-radius: 12px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-      }
     }
   `]
 })
@@ -402,7 +366,6 @@ export class SidebarComponent {
   private readonly router = inject(Router);
   private readonly sanitizer = inject(DomSanitizer);
 
-  readonly mobileOpen = signal(false);
   readonly profileOpen = signal(false);
   readonly navItems = signal<NavItem[]>([]);
 

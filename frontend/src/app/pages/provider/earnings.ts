@@ -285,6 +285,22 @@ import { ProviderSettingsService } from '../../core/services/provider-settings.s
         grid-template-columns: 1fr;
       }
     }
+    @media (max-width: 768px) {
+      .payout-page {
+        padding: 16px;
+      }
+      .page-header h1 {
+        font-size: 24px;
+      }
+      .stat-card {
+        padding: 16px;
+        border-radius: 16px;
+      }
+      .panel-card {
+        padding: 18px;
+        border-radius: 18px;
+      }
+    }
   `]
 })
 export class ProviderEarningsPage implements OnInit {
